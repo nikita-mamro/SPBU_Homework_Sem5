@@ -1,7 +1,7 @@
 import math
 
 TOPIC = "Численные методы решения нелинейных уравнений"
-EPSILON = 10 ** -5
+EPSILON = 0.00001
 A = -8
 B = 2
 F_STRING = "10 * cos(x) - 0.1 * x\u00b2"

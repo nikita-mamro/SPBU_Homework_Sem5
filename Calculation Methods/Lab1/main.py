@@ -15,19 +15,29 @@ def main():
     print_title()
 
     print("Процедура отделения корней:")
-    sections = logic.root_separation(
+    (sections, counter) = logic.root_separation(
         settings.f, 0.00001, settings.A, settings.B)
+    print("Кол-во отрезков смены знака функции: ",
+          counter)
+    print("Отрезки, содержащие корни")
+    for section in sections:
+        print("[", section[0], ",", section[1], "]")
 
-    print("Метод бисекции")
-    logic.bisection_method()
+    print("\nМетод бисекции")
+    for section in sections:
+        (x, delta) = logic.bisection_method(
+            settings.f, section[0], section[1], settings.EPSILON)
+        print("\nx = ", x)
+        print("\u0394 = ", delta)
+        print("|f(x) - 0| = ", abs(settings.f(x) - 0))
 
-    print("Метод Ньютона")
+    print("\nМетод Ньютона")
     logic.newton_method()
 
-    print("Метод Ньютона (модифицированный)")
+    print("\nМетод Ньютона (модифицированный)")
     logic.modified_newton_method()
 
-    print("Метод секущих")
+    print("\nМетод секущих")
     logic.secant_method()
 
 
