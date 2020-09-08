@@ -2,9 +2,11 @@ import math
 
 TOPIC = "Численные методы решения нелинейных уравнений"
 EPSILON = 0.00001
+ROUNDING_DIGITS = 6
 A = -8
 B = 2
 F_STRING = "10 * cos(x) - 0.1 * x\u00b2"
+SEPARATION_STEPS = 100000
 
 
 def f(x):
