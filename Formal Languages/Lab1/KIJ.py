@@ -2,10 +2,6 @@ def K(i, j):
     return (i + j - 1) * (i + j - 2) / 2 + j
 
 
-def N(n):
-    return n * (n + 1) / 2
-
-
 def IJ(k):
     K = 0
     N = 1
