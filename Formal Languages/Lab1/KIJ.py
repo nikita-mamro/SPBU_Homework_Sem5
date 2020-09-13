@@ -7,24 +7,24 @@ def N(n):
 
 
 def IJ(k):
-    (i, j) = (1, 1)
-    K = 1
-
+    K = 0
+    N = 1
     while (K != k):
-        while (j <= i):
-            k += 1
-            j += 1
-        i += 1
-        j = 1
+        for j in range(1, N + 1):
+            K += 1
+            i = N + 1 - j
+            if K == k:
+                return (i, j)
+
+        N += 1
 
     return (i, j)
 
 
 def main():
-    for k in range(1, 16):
-        (i, j) = IJ(k)
-        print("I(", k, ") = ", i)
-        print("J(", k, ") = ", j)
+    (i, j) = IJ(1000)
+    print("(I, J) = ", (i, j))
+    print("K = ", K(i, j))
 
 
 if __name__ == '__main__':
