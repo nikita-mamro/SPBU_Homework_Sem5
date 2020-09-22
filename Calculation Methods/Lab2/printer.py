@@ -29,9 +29,9 @@ def print_table(table):
     print()
 
 
-def print_results(x, n, table):
-    polynom_value = logic.get_polynom_value(x, n, table)
-    f_value = settings.f(x)
+def print_results(x, n, table, f):
+    polynom_value = logic.get_polynom_value(x, n, table, f)
+    f_value = f(x)
 
     print('Значение многочлена в x: ', polynom_value)
     print('Значение функции в x: ', f_value)

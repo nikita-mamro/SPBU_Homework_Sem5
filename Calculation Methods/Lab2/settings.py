@@ -11,3 +11,7 @@ def x_j(j, m, a, b):
 
 def f(x):
     return math.e ** x - x ** 2 / 2
+
+
+def p(x):
+    return (4, 2 * x ** 4 + 0.32 * x ** 3 + x + 10.2)

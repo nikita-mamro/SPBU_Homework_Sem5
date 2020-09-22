@@ -1,16 +1,16 @@
 import settings
 
 
-def create_table(m, A, B):
+def create_table(m, A, B, f):
     table = []
     for j in range(0, m + 1):
         x = settings.x_j(j, m, A, B)
-        table.append((j, x, settings.f(x)))
+        table.append((j, x, f(x)))
 
     return table
 
 
-def get_polynom_value(x, n, table):
+def get_polynom_value(x, n, table, f):
     table.sort(key=lambda xf: abs(xf[1] - x))
 
     result = 0
@@ -29,6 +29,6 @@ def get_polynom_value(x, n, table):
             if i != k:
                 denominator *= x_k - table[i][1]
 
-        result += numerator / denominator * settings.f(x_k)
+        result += numerator / denominator * f(x_k)
 
     return result

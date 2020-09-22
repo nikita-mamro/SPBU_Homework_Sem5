@@ -39,7 +39,7 @@ def read_n(m):
     n = m + 1
 
     while n > m:
-        print('Введите степень P n не более m = ', m, ':')
+        print('Введите степень P n ≤ m = ', m, ':')
         n = int(input())
 
     sys.stdout.write(colors.RESET)
