@@ -38,8 +38,8 @@ def read_n(m):
     sys.stdout.write(colors.GREEN)
     n = m + 1
 
-    while n > m:
-        print('Введите степень P n ≤ m = ', m, ':')
+    while n > m or n <= 0:
+        print('Введите допустимую степень P n ≤ m = ', m, ':')
         n = int(input())
 
     sys.stdout.write(colors.RESET)
