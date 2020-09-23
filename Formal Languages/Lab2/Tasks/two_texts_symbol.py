@@ -1,3 +1,6 @@
+import codecs
+
+
 def find_all_symbols_manual(text_a, text_b):
     symbols = []
 
@@ -27,10 +30,12 @@ def find_all_symbols_lib(text_a, text_b):
 
 
 def main():
-    print("Введите первый текст:")
-    text_a = input()
-    print("Введите второй текст:")
-    text_b = input()
+    f_one = codecs.open('text_one.txt', 'r', 'utf_8_sig')
+    f_two = codecs.open('text_two.txt', 'r', 'utf_8_sig')
+    text_a = f_one.read()
+    text_b = f_two.read()
+    f_one.close()
+    f_two.close()
     symbols_manual = find_all_symbols_manual(text_a, text_b)
     symbols_lib = find_all_symbols_lib(text_a, text_b)
     print("Символы (", len(symbols_manual),

@@ -1,3 +1,6 @@
+import codecs
+
+
 def find_symbols_manual(text):
     symbols = []
 
@@ -13,8 +16,9 @@ def find_symbols_lib(text):
 
 
 def main():
-    print("Введите текст:")
-    text = input()
+    f_one = codecs.open('text_one.txt', 'r', 'utf_8_sig')
+    text = f_one.read()
+    f_one.close()
     symbols_manual = find_symbols_manual(text)
     symbols_lib = find_symbols_lib(text)
     print("Уникальные символы (", len(symbols_manual),
