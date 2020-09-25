@@ -1,30 +1,23 @@
 import codecs
 
 
-def find_symbols_manual(text):
-    symbols = []
-
-    for i in range(0, len(text)):
-        if text[i] not in symbols:
-            symbols.append(text[i])
-
-    return symbols
-
-
-def find_symbols_lib(text):
+def find_symbols(text):
+    # Вернёт объект типа set, который описывает множество (с учётом спец. символов)
     return set(text)
 
 
 def main():
-    f_one = codecs.open('text_one.txt', 'r', 'utf_8_sig')
-    text = f_one.read()
-    f_one.close()
-    symbols_manual = find_symbols_manual(text)
-    symbols_lib = find_symbols_lib(text)
-    print("Уникальные символы (", len(symbols_manual),
-          " шт.), содержащиеся в тексте, первым способом (не исп. библиотечные операции со множествами): ", symbols_manual)
-    print("Уникальные символы (", len(symbols_lib),
-          " шт.), содержащиеся в тексте, вторым способом: ", symbols_lib)
+    f_text = codecs.open('texts\\text_one.txt')
+    text = f_text.read()
+    f_text.close()
+    symbols = find_symbols(text)
+    answer = 'Уникальных символов в тексте text_one.txt ' + \
+        str(len(symbols)) + ' штук'
+    f_res = codecs.open(
+        'results\\text_symbol_distinct_result.txt', 'w', 'utf_8_sig')
+    print(answer)
+    f_res.write(answer)
+    f_res.close()
 
 
 if __name__ == '__main__':
