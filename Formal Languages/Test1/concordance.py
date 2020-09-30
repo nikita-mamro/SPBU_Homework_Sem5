@@ -27,6 +27,6 @@ class Concordance:
 
             i += 1
 
-    def print(self):
+    def print_result(self):
         for word in self.__words:
             print(word, ' ', ' '.join([str(x) for x in self.__words[word]]))
