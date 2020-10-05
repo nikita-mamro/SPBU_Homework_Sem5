@@ -1,6 +1,22 @@
 import settings
 
 
+def bisection_method(f, a, b, epsilon):
+    mid = (a + b) / 2
+    steps = 0
+
+    while b - a > 2 * epsilon:
+        steps += 1
+        c = (a + b) / 2
+        if f(a) * f(c) <= 0:
+            a = c
+        else:
+            b = c
+
+    x = (a + b) / 2
+    return (mid, x, steps, b - a)
+
+
 def create_table(m, A, B, f):
     table = []
     for j in range(0, m + 1):
@@ -10,7 +26,7 @@ def create_table(m, A, B, f):
     return table
 
 
-def get_polynom_value(x, n, table):
+def get_polynom_value_lagrange(x, n, table):
     table.sort(key=lambda xf: abs(xf[1] - x))
 
     result = 0
