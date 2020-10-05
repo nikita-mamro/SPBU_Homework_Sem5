@@ -39,7 +39,7 @@ def get_polynom_newton(x, n, table, f, F):
             ai = newton_table[0][i + 1]
 
             for j in range(0, i):
-                ai *= x - table[j][1]
+                ai *= x - newton_table[j][0]
 
             res += ai
 
