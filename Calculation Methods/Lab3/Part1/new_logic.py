@@ -11,7 +11,7 @@ def get_reversed_table(table):
 
 def get_polynom_newton(x, n, table, f, F):
     def polynom(x):
-        table.sort(key=lambda xf: abs(xf[1] - x))
+        table.sort(key=lambda xf: abs(xf[1] - x0))
 
         newton_table = [[None for col in range(0, n + 2)]
                         for row in range(0, n + 1)]
@@ -29,7 +29,7 @@ def get_polynom_newton(x, n, table, f, F):
 
                 x_index = first_index_in_column + row
 
-                denumerator = newton_table[x_index][0] - newton_table[0][0]
+                denumerator = newton_table[x_index][0] - newton_table[row][0]
 
                 newton_table[row][col] = numerator / denumerator
 

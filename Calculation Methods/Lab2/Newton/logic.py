@@ -30,7 +30,7 @@ def get_polynom_newton(x0, n, table, f):
 
                 x_index = first_index_in_column + row
 
-                denumerator = newton_table[x_index][0] - newton_table[0][0]
+                denumerator = newton_table[x_index][0] - newton_table[row][0]
 
                 newton_table[row][col] = numerator / denumerator
 

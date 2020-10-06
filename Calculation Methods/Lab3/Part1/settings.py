@@ -9,4 +9,4 @@ def x_j(j, m, a, b):
 
 
 def f(x):
-    return math.e ** x - x ** 2 / 2
+    return math.e ** (-x) - x ** 2 / 2
