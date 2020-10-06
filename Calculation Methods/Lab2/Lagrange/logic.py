@@ -10,7 +10,7 @@ def create_table(m, A, B, f):
     return table
 
 
-def get_polynom_value(x, n, table):
+def get_polynom_value_lagrange(x, n, table):
     table.sort(key=lambda xf: abs(xf[1] - x))
 
     result = 0

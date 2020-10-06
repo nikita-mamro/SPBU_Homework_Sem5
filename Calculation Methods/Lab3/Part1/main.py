@@ -22,7 +22,7 @@ def start_lagrange_iteration():
         n = reader.read_n(m)
 
         found_x = old_logic.get_polynom_value_lagrange(
-            F, n, reversed_table, settings.f)
+            F, n, reversed_table)
 
         printer.print_results(found_x, F)
         print("Посчитать для новых x и n? [Y/N]")

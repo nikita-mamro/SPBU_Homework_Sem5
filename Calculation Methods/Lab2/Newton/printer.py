@@ -29,10 +29,11 @@ def print_table(table):
     print()
 
 
-def print_results(x, n, table, f):
-    polynom_value = logic.get_polynom_value(x, n, table)
+def print_results_newton(x, n, table, f):
+    newton_polynom = logic.get_polynom_newton(x, n, table, f)
+    polynom_value = newton_polynom(x)
     f_value = f(x)
 
-    print('Значение многочлена в x: ', polynom_value)
+    print('Значение многочлена Ньютона в x: ', polynom_value)
     print('Значение функции в x: ', f_value)
     print('Фактическая погрешность: ', abs(f_value - polynom_value))
