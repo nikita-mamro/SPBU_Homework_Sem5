@@ -38,3 +38,6 @@ class Concordance:
                                             for x in self.__words[word]])
             f_res.write(chunk)
             f_res.write('\n')
+
+    def get_words(self):
+        return self.__words
