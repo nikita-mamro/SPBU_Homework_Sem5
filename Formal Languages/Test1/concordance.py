@@ -1,5 +1,6 @@
 import io
 import splitter
+import codecs
 
 
 class Concordance:
@@ -20,7 +21,8 @@ class Concordance:
 
         for line in lines:
             lower_line = line.lower()
-            words = splitter.split(lower_line, [' ', ',', '.', ':', ';'])
+            words = splitter.split(
+                lower_line, [' ', ',', '.', ':', ';', '\n', '\r', '\t'])
 
             for word in words:
                 self.add_word(word, i)
@@ -28,5 +30,11 @@ class Concordance:
             i += 1
 
     def print_result(self):
-        for word in self.__words:
-            print(word, ' ', ' '.join([str(x) for x in self.__words[word]]))
+        f_res = codecs.open(
+            'result.txt', 'w', 'utf_8_sig')
+
+        for word in sorted(self.__words):
+            chunk = word + '\t' + ' '.join([str(x)
+                                            for x in self.__words[word]])
+            f_res.write(chunk)
+            f_res.write('\n')
