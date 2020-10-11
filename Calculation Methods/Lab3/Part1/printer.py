@@ -29,5 +29,6 @@ def print_table(table, col_1='x', col_2='f(x)'):
 
 def print_results(X, F):
     print('F = ', F)
-    print('Найденный X = ', settings.f(X))
+    print('Найденный X = ', X)
+    print('f(X) = ', settings.f(X))
     print('Модуль невязки: ', abs(settings.f(X) - F))

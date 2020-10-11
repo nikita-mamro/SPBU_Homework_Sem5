@@ -42,15 +42,5 @@ def main():
             continue
 
 
-def test_polynom():
-    m = 100
-    (A, B) = (-10, 10)
-    x = 3.45
-    n = 7
-    table = logic.create_table(m, A, B, settings.p)
-    printer.print_results_newton(x, n, table, settings.f)
-
-
 if __name__ == '__main__':
-    # test_polynom()
     main()

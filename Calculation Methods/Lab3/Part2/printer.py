@@ -31,4 +31,4 @@ def print_d_table(table):
     print('\nТаблица производных\n')
 
     print(tabulate(table, headers=[
-          'x', 'f чд', '|f\'т - f\'чд|', 'f\'\'чд', '|f\'\'т - f\'\'чд|'], tablefmt='orgtbl'))
+          'x', 'f', 'f\'чд', '|f\'т - f\'чд|', 'f\'\'чд', '|f\'\'т - f\'\'чд|'], tablefmt='orgtbl'))

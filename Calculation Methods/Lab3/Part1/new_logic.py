@@ -9,7 +9,7 @@ def get_reversed_table(table):
     return res
 
 
-def get_polynom_newton(x, n, table, f, F):
+def get_polynom_newton(x0, n, table, f, F):
     def polynom(x):
         table.sort(key=lambda xf: abs(xf[1] - x0))
 

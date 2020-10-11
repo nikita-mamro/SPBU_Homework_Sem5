@@ -11,7 +11,11 @@ def main():
     a = reader.read_a()
     h = reader.read_h()
 
-    d_table = logic.create_d_table(a, m, h)
+    table = logic.create_table(a, m, h)
+
+    printer.print_table(table)
+
+    d_table = logic.create_d_table(table, h)
 
     printer.print_d_table(d_table)
 
