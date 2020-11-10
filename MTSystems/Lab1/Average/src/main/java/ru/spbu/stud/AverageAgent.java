@@ -32,7 +32,7 @@ public class AverageAgent extends Agent {
     }
 
     public void sendMessage() {
-        if (isPending) {
+        if (isPending && !isTriggered) {
             ACLMessage newMes = new ACLMessage(ACLMessage.INFORM);
             newMes.addReceiver(receiverAID);
             newMes.setContent(Double.toString(value));
