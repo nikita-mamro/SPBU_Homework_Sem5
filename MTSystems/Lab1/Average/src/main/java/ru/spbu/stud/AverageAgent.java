@@ -90,7 +90,7 @@ public class AverageAgent extends Agent {
 
             if (elementIndex % 2 == 0) {
                 if (elementIndex != buffer.size() - 1) {
-                    return new AID(Integer.toString(id + 1), AID.ISLOCALNAME);
+                    return new AID(Integer.toString(buffer.get(elementIndex + 1)), AID.ISLOCALNAME);
                 }
 
                 return new AID(Integer.toString(0), AID.ISLOCALNAME);
