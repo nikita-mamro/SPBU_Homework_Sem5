@@ -1,25 +1,25 @@
 package ru.spbu.stud;
 
 import jade.core.behaviours.TickerBehaviour;
-import jade.lang.acl.ACLMessage;
 
 public class FindAverageBehaviour extends TickerBehaviour {
     private final AverageAgent agent;
-    private int currentTick;
-    private boolean IsFinished = false;
-    private final int MAX_TICKS = 10000;
-    private final int CENTER_ID = 1;
 
     FindAverageBehaviour(AverageAgent agent, long period) {
         super(agent, period);
         this.setFixedPeriod(true);
         this.agent = agent;
-        this.currentTick = 0;
     }
 
     @Override
     protected void onTick() {
-        agent.sendMessage();
+        if (agent.isTriggered()) {
+            stop();
+        }
+
+        if (!agent.isCenter()) {
+            agent.sendMessage();
+        }
 
         var msg = agent.blockingReceive();
 
@@ -27,23 +27,9 @@ public class FindAverageBehaviour extends TickerBehaviour {
             agent.proceedIncomingMessage(msg.getContent());
 
             if (agent.isCenter()) {
-                System.out.println("Answer is " + agent.getValue());
+                System.out.println("Average has been found. Answer is " + agent.getValue());
+                stop();
             }
-
-            this.stop();
-        }
-
-
-        if (!IsFinished && currentTick < MAX_TICKS) {
-            //System.out.println("Agent " + this.agent.getLocalName() + ": tick=" + getTickCount());
-            this.currentTick++;
-        } else {
-            if (!IsFinished) {
-                System.out.println("Stopping agent" + agent.getLocalName() + ": Out of ticks :(");
-            } else {
-                System.out.println("Stopping agent" + agent.getLocalName() + ": Average has been found, :)");
-            }
-            this.stop();
         }
     }
 }

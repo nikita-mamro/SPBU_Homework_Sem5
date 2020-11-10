@@ -1,4 +1,4 @@
-# Parameter: Value
+# Parameter: Value in node. Note: first line is center node.
 1
 2
 3

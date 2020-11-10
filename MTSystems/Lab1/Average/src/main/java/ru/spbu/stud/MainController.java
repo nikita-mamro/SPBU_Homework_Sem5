@@ -15,7 +15,7 @@ public class MainController {
         this.parameters = parameters;
     }
 
-    void initAgents() {
+    public void initAgents() {
         Runtime rt = Runtime.instance();
         Profile p = new ProfileImpl();
         p.setParameter(Profile.MAIN_HOST, "localhost");
@@ -24,7 +24,7 @@ public class MainController {
         ContainerController cc = rt.createMainContainer(p);
 
         try {
-            for(int i=1; i <= parameters.size(); i++) {
+            for(int i=0; i <= parameters.size(); i++) {
                 AgentController agent = cc.createNewAgent(Integer.toString(i),
                         "ru.spbu.stud.AverageAgent", new Object[] {parameters.get(i), parameters.size()});
                 agent.start();

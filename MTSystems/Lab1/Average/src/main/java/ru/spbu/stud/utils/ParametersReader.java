@@ -11,7 +11,7 @@ public class ParametersReader {
             var stream = ParametersReader.class.getClassLoader().getResourceAsStream(fileName);
 
             var scanner = new Scanner(stream);
-            var agentNumber = 1;
+            var agentNumber = 0;
 
             // Skip comment
             scanner.nextLine();
