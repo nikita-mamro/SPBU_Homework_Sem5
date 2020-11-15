@@ -15,9 +15,7 @@ public class AverageAgent extends Agent {
     private boolean isPending;
     private boolean isTriggered;
 
-    public boolean isPending() {
-        return isPending;
-    }
+    private int leftReceived;
 
     public boolean isTriggered() {
         return isTriggered;
@@ -36,16 +34,31 @@ public class AverageAgent extends Agent {
             ACLMessage newMes = new ACLMessage(ACLMessage.INFORM);
             newMes.addReceiver(receiverAID);
             newMes.setContent(Double.toString(value));
-            send(newMes);
-            isPending = false;
-            isTriggered = true;
+
+            try {
+                send(newMes);
+            }
+            finally {
+                isPending = false;
+                isTriggered = true;
+            }
         }
     }
 
-    public void proceedIncomingMessage(String msgContent) {
-        double msgDoubleValue = Double.parseDouble(msgContent);
-        isPending = true;
+    public void proceedIncomingMessage(ACLMessage msg) {
+        double msgDoubleValue = Double.parseDouble(msg.getContent());
+
+        if (isCenter()) {
+            value = msgDoubleValue;
+            return;
+        }
+
         value = (value + msgDoubleValue) / 2;
+        leftReceived--;
+
+        if (leftReceived == 0) {
+            isPending = true;
+        }
     }
 
     @Override
@@ -54,7 +67,7 @@ public class AverageAgent extends Agent {
         Object[] args = getArguments();
 
         if (args != null && args.length > 0) {
-            if (args.length != 2) {
+            if (args.length != 4) {
                 throw new InvalidParameterException("Invalid parameters for agent setup");
             }
 
@@ -67,42 +80,13 @@ public class AverageAgent extends Agent {
 
             isPending = id % 2 == 1 && id != numberOfAgents;
 
-            if (id != 0) {
-                receiverAID = getReceiverAID(id, numberOfAgents);
-            }
+            receiverAID = new AID(args[2].toString(), AID.ISLOCALNAME);
+            leftReceived = Integer.parseInt(args[3].toString());
         }
         else {
             throw new InvalidParameterException("Invalid neighbours param");
         }
 
         addBehaviour(new FindAverageBehaviour(this, TimeUnit.SECONDS.toMillis(1)));
-    }
-
-    private AID getReceiverAID(int id, int totalAgents) {
-        var buffer = new ArrayList<Integer>();
-
-        for (var i = 0; i < totalAgents; ++i) {
-            buffer.add(i + 1);
-        }
-
-        while (true) {
-            var elementIndex = buffer.indexOf(id);
-
-            if (elementIndex % 2 == 0) {
-                if (elementIndex != buffer.size() - 1) {
-                    return new AID(Integer.toString(buffer.get(elementIndex + 1)), AID.ISLOCALNAME);
-                }
-
-                return new AID(Integer.toString(0), AID.ISLOCALNAME);
-            }
-
-            var tmp = new ArrayList<Integer>();
-
-            for (var i = 1; i < buffer.size(); i += 2) {
-                tmp.add(buffer.get(i));
-            }
-
-            buffer = tmp;
-        }
     }
 }

@@ -13,18 +13,18 @@ public class FindAverageBehaviour extends TickerBehaviour {
 
     @Override
     protected void onTick() {
-        if (agent.isTriggered()) {
-            stop();
-        }
-
         if (!agent.isCenter()) {
             agent.sendMessage();
+        }
+
+        if (agent.isTriggered()) {
+            stop();
         }
 
         var msg = agent.blockingReceive();
 
         if (msg != null) {
-            agent.proceedIncomingMessage(msg.getContent());
+            agent.proceedIncomingMessage(msg);
 
             if (agent.isCenter()) {
                 System.out.println("Average has been found. Answer is " + agent.getValue());
