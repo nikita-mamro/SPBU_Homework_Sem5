@@ -31,7 +31,7 @@ public class MainController {
             var receivers = getReceivers(parameters);
             var requiredSendersCounts = getRequiredSendersCounts(receivers);
 
-            for(int i = 0; i <= parameters.size(); i++) {
+            for(int i = 0; i < parameters.size(); i++) {
                 AgentController agent = cc.createNewAgent(Integer.toString(i),
                         "ru.spbu.stud.AverageAgent", new Object[] {parameters.get(i), parameters.size(), receivers.get(i), requiredSendersCounts.get(i)});
                 agent.start();

@@ -5,7 +5,6 @@ import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class AverageAgent extends Agent {
@@ -16,6 +15,7 @@ public class AverageAgent extends Agent {
     private boolean isTriggered;
 
     private int leftReceived;
+    private int totalValues = 1;
 
     public boolean isTriggered() {
         return isTriggered;
@@ -33,7 +33,7 @@ public class AverageAgent extends Agent {
         if (isPending && !isTriggered) {
             ACLMessage newMes = new ACLMessage(ACLMessage.INFORM);
             newMes.addReceiver(receiverAID);
-            newMes.setContent(Double.toString(value));
+            newMes.setContent(value + ";" + totalValues);
 
             try {
                 send(newMes);
@@ -46,14 +46,17 @@ public class AverageAgent extends Agent {
     }
 
     public void proceedIncomingMessage(ACLMessage msg) {
-        double msgDoubleValue = Double.parseDouble(msg.getContent());
+        var args = msg.getContent().split(";");
+
+        var msgDoubleValue = Double.parseDouble(args[0]);
+        var msgTotalValues = Integer.parseInt(args[1]);
 
         if (isCenter()) {
-            value = msgDoubleValue;
+            value = msgDoubleValue / msgTotalValues;
             return;
         }
-
-        value = (value + msgDoubleValue) / 2;
+        value = value + msgDoubleValue;
+        totalValues += msgTotalValues;
         leftReceived--;
 
         if (leftReceived == 0) {
