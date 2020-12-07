@@ -73,6 +73,6 @@ def find_meler(f, n):
     s = 0
 
     for i in range(1, n + 1):
-        s += f(math.cos(math.pi * (2 - i - 1)) / 2 / n)
+        s += f(math.cos(math.pi * (2 * i - 1) / (2 * n)))
 
     return s * math.pi / n

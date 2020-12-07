@@ -21,6 +21,9 @@ def perform_step():
     g_like_res = logic.find_gauss_like(f_gauss, w_gauss, a, b, True)
     m_res = logic.find_meler(f_meler, n)
 
+    g_expected = integrate.quad(lambda x: f_gauss(x) * w_gauss(x), a, b)[0]
+    m_expected = settings.fM_expected(1) - settings.fM_expected(-1)
+
     print('Число промежутков для КФ Гаусса: ', m)
     print('Фактическое значение: ', g_expected)
 
@@ -37,6 +40,7 @@ def perform_step():
     print('Формула Мелера')
     print('Отрезок интегрирования [-1;1]')
     print('Вычисленное значение: ', m_res)
+    print('Абсолютная погрешность: ', abs(m_res - m_expected))
 
     print('\n\n')
 
