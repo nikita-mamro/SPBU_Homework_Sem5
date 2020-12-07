@@ -14,6 +14,7 @@ def print_res(res, expected, d, M, C, A, B, h):
 
 def main():
     print('Лабораторная работа №4 \n Приближённое вычисление интеграла по составным квадратурным формулам')
+    print('Вариант 7')
     a = reader.read_float('Введите A: ', lambda x: True)
     b = reader.read_float('Введите B: ', lambda x: x > a)
     m = reader.read_int('Введите m: ', lambda x: x > 0)
