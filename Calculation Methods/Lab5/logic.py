@@ -26,7 +26,7 @@ def find_gauss(f, a, b, m):
 
 
 def find_gauss_like(f, w, a, b, logging_enabled):
-    print('-----Построение КФ Гаусса-----')
+    print('----- Построение КФ Гаусса -----')
     m = 100000
 
     mu0 = find_middle_rectangle(a, b, w, m)
