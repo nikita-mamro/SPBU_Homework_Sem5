@@ -45,7 +45,7 @@ def perform_step():
     print('\n\n')
 
     print('Esc - выход')
-    if not reader.escape_pressed():
+    if reader.not_escape_pressed():
         perform_step()
 
 

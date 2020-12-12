@@ -1,7 +1,7 @@
 from msvcrt import kbhit, getch as _getch
 
 
-def escape_pressed():
+def not_escape_pressed():
     return kbhit() or _getch() != '\x1b'
 
 
