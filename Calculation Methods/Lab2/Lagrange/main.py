@@ -16,7 +16,7 @@ def start_iteration():
         x = reader.read_x()
         n = reader.read_n(m)
         # Print results
-        printer.print_results(x, n, table, settings.f)
+        printer.print_results_lagrange(x, n, table, settings.f)
         print("Посчитать для новых x и n? [Y/N]")
         answer = input()
 
@@ -48,7 +48,7 @@ def test_polynom():
     x = 3.45
     n = 7
     table = logic.create_table(m, A, B, settings.p)
-    printer.print_results(x, n, table, settings.f)
+    printer.print_results_lagrange(x, n, table, settings.f)
 
 
 if __name__ == '__main__':
