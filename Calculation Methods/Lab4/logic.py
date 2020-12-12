@@ -16,7 +16,7 @@ def find_right_rectangle_j(A, f, m, h):
 
 def find_middle_rectangle_j(A, f, m, h):
     res = 0
-    for i in range(1, m):
+    for i in range(0, m):
         res += f(A + i * h + h / 2)
 
     return res * h
