@@ -8,7 +8,7 @@ import time
 
 def print_divider():
     sys.stdout.write(colors.GREEN)
-    print('---------------------------')
+    print('------------------------------------------------------------------------------------')
     sys.stdout.write(colors.RESET)
 
 
@@ -62,7 +62,9 @@ def start_iteration():
     print('\n\nМетод Адамса 4-го порядка')
     sys.stdout.write(colors.RESET)
     print_divider()
-
+    adams_y = logic.find_adams(
+        N, h, settings.X0, settings.Y0, settings.d1y, expected_table)
+    logic.print_adams_table(adams_y, expected_table)
     print_divider()
 
     # Runge-Kutta results table ()
@@ -81,7 +83,7 @@ def start_iteration():
     sys.stdout.write(colors.RESET)
     print_divider()
     eu_y = logic.find_euler(N, h, settings.X0, settings.Y0, settings.d1y)
-    logic.print_euler_table(N, h, settings.X0, settings.Y0, settings.d1y)
+    logic.print_euler_table(eu_y, expected_table)
     print_divider()
 
     # Euler I results table ()
@@ -89,6 +91,8 @@ def start_iteration():
     print('\n\nМетод Эйлера I')
     sys.stdout.write(colors.RESET)
     print_divider()
+    euI_y = logic.find_eulerI(N, h, settings.X0, settings.Y0, settings.d1y)
+    logic.print_eulerI_table(euI_y, expected_table)
     print_divider()
 
     # Euler II results table ()
@@ -96,6 +100,8 @@ def start_iteration():
     print('\n\nМетод Эйлера II')
     sys.stdout.write(colors.RESET)
     print_divider()
+    euII_y = logic.find_eulerII(N, h, settings.X0, settings.Y0, settings.d1y)
+    logic.print_eulerII_table(euII_y, expected_table)
     print_divider()
     print('\n\n')
 
@@ -104,6 +110,8 @@ def start_iteration():
     print('Абсолютная погрешность для y_N:')
     sys.stdout.write(colors.RESET)
     print_divider()
+    logic.print_yn_absolute_error(
+        taylor_y, adams_y, rk_y, eu_y, euI_y, euII_y, expected_table)
     print_divider()
     print('\n\n')
 
