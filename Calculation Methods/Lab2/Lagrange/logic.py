@@ -10,7 +10,7 @@ def create_table(m, A, B, f):
     return table
 
 
-def get_polynom_value(x, n, table, f):
+def get_polynom_value_lagrange(x, n, table):
     table.sort(key=lambda xf: abs(xf[1] - x))
 
     result = 0
@@ -29,6 +29,6 @@ def get_polynom_value(x, n, table, f):
             if i != k:
                 denominator *= x_k - table[i][1]
 
-        result += numerator / denominator * f(x_k)
+        result += numerator / denominator * table[k][2]
 
     return result
