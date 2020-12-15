@@ -105,8 +105,8 @@ def find_adams(N, h, x0, y0, d1y, expected_table):
         d2q_m2 = qs[2][j - 3]
         d3q_m3 = qs[3][j - 4]
         d4q_m4 = qs[4][j - 5]
-        res[j] = res[j - 1] + q_m + dq_m1 / 2 + 5 * d2q_m2 / \
-            12 + 3 * d3q_m3 / 8 + 252 * d4q_m4 / 720
+        res[j] = res[j - 1] + q_m + dq_m1 / 2.0 + 5 * d2q_m2 / \
+            12.0 + 3 * d3q_m3 / 8.0 + 251 * d4q_m4 / 720.0
 
     return res
 
@@ -206,4 +206,10 @@ def print_yn_absolute_error(taylor_y, adams_y, rk_y, eu_y, euI_y, euII_y, expect
         euI_y[-1] - expected_table[-1][2]))
     print('Метод Эйлера II: ', abs(
         euII_y[-1] - expected_table[-1][2]))
-    return
+
+
+def print_a_rk_error(adams_y, rk_y, expected_table):
+    print('Метод Адамса 4-го порядка: ', abs(
+        adams_y[-1] - expected_table[-1][2]))
+    print('Метод Рунге-Кутта 4-го порядка: ', abs(
+        rk_y[-1] - expected_table[-1][2]))
