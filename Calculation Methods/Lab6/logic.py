@@ -61,7 +61,7 @@ def print_error_table(found_column, expected_table, skip=0):
         table.append(el)
 
     print(tabulate(table, headers=[
-          'j', 'x', 'Найденный y', 'Погрешность'], tablefmt='orgtbl', floatfmt='.11f'))
+          'j', 'x', 'Найденный y', 'Погрешность'], tablefmt='orgtbl', floatfmt='.25f'))
 
 
 def print_teylor_table(taylor_y, expected_table):
@@ -95,11 +95,12 @@ def find_adams(N, h, x0, y0, d1y, expected_table):
 
     for s in range(1, 5):
         dsqs = []
-        for j in range(0, len(qs[s - 1]) - 1):
+        for j in range(0, 5 - s):
             dsqs.append(qs[s - 1][j + 1] - qs[s - 1][j])
+        dsqs += [0] * (N + 3 - (5 - s - 2))
         qs.append(dsqs)
 
-    for j in range(3, N + 3):
+    for j in range(5, N + 3):
         q_m = qs[0][j - 1]
         dq_m1 = qs[1][j - 2]
         d2q_m2 = qs[2][j - 3]
@@ -107,6 +108,9 @@ def find_adams(N, h, x0, y0, d1y, expected_table):
         d4q_m4 = qs[4][j - 5]
         res[j] = res[j - 1] + q_m + dq_m1 / 2.0 + 5 * d2q_m2 / \
             12.0 + 3 * d3q_m3 / 8.0 + 251 * d4q_m4 / 720.0
+        qs[0][j] = qj(h, d1y, nodes[j], res[j])
+        for s in range(1, len(qs)):
+            qs[s][j - s] = qs[s - 1][j - s + 1] - qs[s - 1][j - s]
 
     return res
 
@@ -117,23 +121,24 @@ def print_adams_table(adams_y, expected_table):
 
 def find_runge_kutta(N, h, x0, y0, d1y):
     nodes = get_nodes(x0, N, h)
-    res = [0] * N
+    res = [0] * (N + 1)
     res[0] = y0
     non_negative_nodes = nodes[2:]
+    half_h = h * 0.5
 
     for i in range(1, len(res)):
         k1 = h * d1y(non_negative_nodes[i - 1], res[i - 1])
-        k2 = h * d1y(non_negative_nodes[i - 1] + h / 2, res[i - 1] + k1 / 2)
-        k3 = h * d1y(non_negative_nodes[i - 1] + h / 2, res[i - 1] + k2 / 2)
+        k2 = h * d1y(non_negative_nodes[i - 1] + half_h, res[i - 1] + k1 * 0.5)
+        k3 = h * d1y(non_negative_nodes[i - 1] + half_h, res[i - 1] + k2 * 0.5)
         k4 = h * d1y(non_negative_nodes[i], res[i - 1] + k3)
-        res[i] = res[i - 1] + (k1 + 2 * k2 + 2 * k3 + k4) / 6
+        res[i] = res[i - 1] + (k1 + 2 * k2 + 2 * k3 + k4) / 6.0
 
     return res
 
 
 def print_runge_kutta_table(rk_y, expected_table):
-    rk_y = [0] * 3 + rk_y
-    print_error_table(rk_y, expected_table, 3)
+    rk_y = [0] * 2 + rk_y
+    print_error_table(rk_y, expected_table, 2)
 
 
 def find_euler(N, h, x0, y0, d1y):

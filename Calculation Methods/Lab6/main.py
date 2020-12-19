@@ -53,8 +53,8 @@ def start_iteration():
     # sys.stdout.write(colors.RESET)
     # print_divider()
     # Teylor found y(xj) for x0 - 2h, x0 - h, ...
-    #taylor_y = logic.find_taylor(derivatives, settings.X0, N, h)
-    ##logic.print_teylor_table(taylor_y, expected_table)
+    # taylor_y = logic.find_taylor(derivatives, settings.X0, N, h)
+    # logic.print_teylor_table(taylor_y, expected_table)
     # print_divider()
 
     # Adams results table ()
