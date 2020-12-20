@@ -148,7 +148,7 @@ namespace FirstFollow.Solver
 
             foreach (var nt in _g.VN)
             {
-                var follow = phis[('S', nt)];
+                var follow = phis[('S', nt)].Where(e => e != "ε").ToList();
 
                 if (nt == 'S')
                 {
@@ -165,7 +165,7 @@ namespace FirstFollow.Solver
         {
             var phis = new Dictionary<(char, char), List<List<string>>>();
 
-            // Ищем ϕ0
+            // Ищем ϕ_0
             foreach (var a in _g.VN)
             {
                 foreach (var b in _g.VN)
@@ -191,8 +191,7 @@ namespace FirstFollow.Solver
                 }
             }
 
-
-            // Ищем ϕi
+            // Нашли ϕ_0, ищем ϕ_1, ϕ_2,...
 
             var i = 0;
             bool finished;
@@ -201,15 +200,39 @@ namespace FirstFollow.Solver
             {
                 finished = true;
 
-                // Добавляем ϕi
+                // Найдены ϕ_0,...,ϕ_i-1
+                // Ищем ϕ_i+1
                 foreach (var a in _g.VN)
                 {
                     foreach (var b in _g.VN)
                     {
+                        // Для ϕ_i+1
+                        var phi_i1 = phis[(a, b)][i];
+
                         foreach (var rule in _g.Rules)
                         {
+                            if (rule.LeftSide == a.ToString())
+                            {
+                                // Проверка, есть ли нетерминал Xp в правой части правила
+                                if (rule.RightSide.Any(e => char.IsUpper(e)))
+                                {
+                                    // Для каждого нетерминала Xp выполняется шаг 2
+                                    foreach (var nt in rule.RightSide.Where(e => char.IsUpper(e)))
+                                    {
+                                        var p = rule.RightSide.IndexOf(nt);
+                                        // X_p+1...X_m
+                                        var xs = rule.RightSide.Substring(p + 1, rule.RightSide.Length - p - 1);
+                                        var ws = phis[(nt, b)][i];
+                                        ws = XorK(ws, First(k, xs), k);
 
+                                        phi_i1 = phi_i1.Union(ws).ToList();
+                                    }
+                                }
+                            }
                         }
+
+                        // Добавляем ϕ_i+1 к результатам
+                        phis[(a, b)].Add(phi_i1);
                     }
                 }
 
@@ -249,18 +272,29 @@ namespace FirstFollow.Solver
         {
             var res = new List<string>();
 
-            foreach (var e1 in l1)
+            if (l1.Count == 0)
             {
-                foreach (var e2 in l2)
+                res = l2;
+            }
+            else if (l2.Count == 0)
+            {
+                res = l1;
+            }
+            else
+            {
+                foreach (var e1 in l1)
                 {
-                    var toAdd = (e1 + e2).Replace("ε", string.Empty);
-
-                    if (string.IsNullOrEmpty(toAdd))
+                    foreach (var e2 in l2)
                     {
-                        toAdd = "ε";
-                    }
+                        var toAdd = (e1 + e2).Replace("ε", string.Empty);
 
-                    res.Add(toAdd);
+                        if (string.IsNullOrEmpty(toAdd))
+                        {
+                            toAdd = "ε";
+                        }
+
+                        res.Add(toAdd);
+                    }
                 }
             }
 
@@ -275,7 +309,7 @@ namespace FirstFollow.Solver
             {
                 if (ruleRightSide[i] == b)
                 {
-                    res.Add(ruleRightSide.Substring(i, ruleRightSide.Length - i));
+                    res.Add(ruleRightSide.Substring(i + 1, ruleRightSide.Length - i - 1));
                 }
             }
 
