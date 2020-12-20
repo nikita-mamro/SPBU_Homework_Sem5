@@ -15,10 +15,39 @@ namespace FirstFollow.Solver
             _g = g;
         }
 
-        /// <summary>
-        /// Функция FIRST(G, k) для нетерминалов
-        /// </summary>
-        public Dictionary<char, List<string>> First(int k)
+        public List<string> First(int k, string str)
+        {
+            var ntFirst = FirstForNonterminal(k);
+            var strLists = new List<List<string>>();
+
+            if (string.IsNullOrEmpty(str))
+            {
+                strLists.Add(new List<string> { "ε" });
+            }
+
+            foreach (var c in str)
+            {
+                if (char.IsUpper(c))
+                {
+                    strLists.Add(ntFirst[c]);
+                }
+                else
+                {
+                    strLists.Add(new List<string> { c.ToString() });
+                }
+            }
+
+            var res = new List<string>();
+
+            foreach (var l in strLists)
+            {
+                res = XorK(res, l, k);
+            }
+
+            return res;
+        }
+
+        public Dictionary<char, List<string>> FirstForNonterminal(int k)
         {
             // Создаём словарь для хранения списков F_i для каждого нетерминала
             // В List<List<string>> лежат последовательности F_i для нетерминала
@@ -109,11 +138,111 @@ namespace FirstFollow.Solver
         }
 
         /// <summary>
-        /// Функция FOLLOW(G, k) для нетерминалов
+        /// Функция FOLLOW для нетерминалов
         /// </summary>
-        public Dictionary<char, List<string>> Follow(int k)
+        public Dictionary<char, List<string>> FollowForNonterminal(int k)
         {
-            return new Dictionary<char, List<string>>();
+            var res = new Dictionary<char, List<string>>();
+
+            var phis = GetPhis(k);
+
+            foreach (var nt in _g.VN)
+            {
+                var follow = phis[('S', nt)];
+
+                if (nt == 'S')
+                {
+                    follow = follow.Union(new List<string> { "ε" }).ToList();
+                }
+
+                res.Add(nt, follow);
+            }
+
+            return res;
+        }
+
+        private Dictionary<(char, char), List<string>> GetPhis(int k)
+        {
+            var phis = new Dictionary<(char, char), List<List<string>>>();
+
+            // Ищем ϕ0
+            foreach (var a in _g.VN)
+            {
+                foreach (var b in _g.VN)
+                {
+                    // Добавляем новую последовательность phi с пустым phi0
+                    phis.Add((a, b), new List<List<string>>());
+                    phis[(a, b)].Add(new List<string>());
+
+                    foreach (var rule in _g.Rules)
+                    {
+                        // Ищем подходящие для phi0(a,b) w
+                        if (rule.LeftSide == a.ToString())
+                        {
+                            foreach (var alpha in GetRightPartsForPhi0(rule.RightSide, b))
+                            {
+                                foreach (var w in First(k, alpha))
+                                {
+                                    phis[(a, b)][0].Add(w);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            // Ищем ϕi
+
+            var i = 0;
+            bool finished;
+
+            while (true)
+            {
+                finished = true;
+
+                // Добавляем ϕi
+                foreach (var a in _g.VN)
+                {
+                    foreach (var b in _g.VN)
+                    {
+                        foreach (var rule in _g.Rules)
+                        {
+
+                        }
+                    }
+                }
+
+                foreach (var a in _g.VN)
+                {
+                    foreach (var b in _g.VN)
+                    {
+                        if (!phis[(a, b)][i].SequenceEqual(phis[(a, b)][i + 1]))
+                        {
+                            finished = false;
+                        }
+                    }
+                }
+
+                ++i;
+
+                if (finished)
+                {
+                    break;
+                }
+            }
+
+            var res = new Dictionary<(char, char), List<string>>();
+
+            foreach (var a in _g.VN)
+            {
+                foreach (var b in _g.VN)
+                {
+                    res.Add((a, b), phis[(a, b)].Last());
+                }
+            }
+
+            return res;
         }
 
         private List<string> XorK(List<string> l1, List<string> l2, int k)
@@ -136,6 +265,21 @@ namespace FirstFollow.Solver
             }
 
             return res.Select(e => new string(e.Take(k).ToArray())).Distinct().ToList();
+        }
+
+        private List<string> GetRightPartsForPhi0(string ruleRightSide, char b)
+        {
+            var res = new List<string>();
+
+            for (var i = 0; i < ruleRightSide.Length; ++i)
+            {
+                if (ruleRightSide[i] == b)
+                {
+                    res.Add(ruleRightSide.Substring(i, ruleRightSide.Length - i));
+                }
+            }
+
+            return res;
         }
     }
 }

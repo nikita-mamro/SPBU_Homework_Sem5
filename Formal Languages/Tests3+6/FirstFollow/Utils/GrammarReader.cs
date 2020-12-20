@@ -11,14 +11,16 @@ namespace FirstFollow.Utils
             var rules = new List<Rule>();
             var vt = new List<char>();
             var vn = new List<char>();
-
+            var i = 1;
             Console.WriteLine("Введите построчно правила в формате 'left->right':");
-
+            Console.Write($"({i})");
             var ruleInput = Console.ReadLine();
 
             while (!string.IsNullOrEmpty(ruleInput))
             {
                 rules.Add(ParseRuleInput(ruleInput));
+                ++i;
+                Console.Write($"({i})");
                 ruleInput = Console.ReadLine();
             }
 

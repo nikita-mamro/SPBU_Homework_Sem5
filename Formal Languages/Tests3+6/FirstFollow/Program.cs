@@ -57,26 +57,40 @@ namespace FirstFollow
                 }
             }
 
-            Console.WriteLine("\nFIRSTk:");
-            var firsts = solver.First(k);
+            Console.WriteLine("\nFIRSTk для нетерминалов:");
+            var firsts = solver.FirstForNonterminal(k);
             foreach (var nt in firsts.Keys)
             {
-                Console.Write($"FIRST({nt}): {{");
+                Console.Write($"FIRST({nt}): {{ ");
                 foreach (var e in firsts[nt])
                 {
-                    Console.Write($"{e} ");
+                    Console.Write($"{e}");
+
+                    if (firsts[nt].IndexOf(e) != firsts[nt].Count - 1)
+                    {
+                        Console.Write($",");
+                    }
+
+                    Console.Write(" ");
                 }
                 Console.WriteLine("}");
             }
 
-            Console.WriteLine("\nFOLLOWk:");
-            var follows = solver.Follow(k);
+            Console.WriteLine("\nFOLLOWk для нетерминалов:");
+            var follows = solver.FollowForNonterminal(k);
             foreach (var nt in follows.Keys)
             {
-                Console.Write($"FOLLOW({nt}): {{");
+                Console.Write($"FOLLOW({nt}): {{ ");
                 foreach (var e in follows[nt])
                 {
-                    Console.Write($"{e} ");
+                    Console.Write($"{e}");
+
+                    if (follows[nt].IndexOf(e) != follows[nt].Count - 1)
+                    {
+                        Console.Write($",");
+                    }
+
+                    Console.Write(" ");
                 }
                 Console.WriteLine("}");
             }
