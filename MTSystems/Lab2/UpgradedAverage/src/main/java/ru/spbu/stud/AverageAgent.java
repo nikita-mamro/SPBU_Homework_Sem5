@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class AverageAgent extends Agent {
     private double value;
     private AID receiverAID;
+    private double protocolStep;
     // Shows if ready to send message to receiver
     private boolean isPending;
     private boolean isTriggered;
@@ -35,6 +36,7 @@ public class AverageAgent extends Agent {
             ACLMessage newMes = new ACLMessage(ACLMessage.INFORM);
             newMes.addReceiver(receiverAID);
 
+            // Добавление помех, в данном случае некоторое число от -1 до 1
             var valueWithInterference = value + ThreadLocalRandom.current().nextDouble(-1, 1);
             newMes.setContent(valueWithInterference + ";" + totalValues);
 
@@ -51,14 +53,19 @@ public class AverageAgent extends Agent {
     public void proceedIncomingMessage(ACLMessage msg) {
         var args = msg.getContent().split(";");
 
+        // Полученное сообщение с помехами
         var msgDoubleValue = Double.parseDouble(args[0]);
         var msgTotalValues = Integer.parseInt(args[1]);
+
+        // Текущее значение с помехами
+        var valueWithInterference = value + ThreadLocalRandom.current().nextDouble(-1, 1);
+
+        value = value + protocolStep * (msgDoubleValue - valueWithInterference);
 
         if (isCenter()) {
             value = msgDoubleValue / msgTotalValues;
             return;
         }
-        value = value + msgDoubleValue;
         totalValues += msgTotalValues;
         leftReceived--;
 
@@ -73,7 +80,7 @@ public class AverageAgent extends Agent {
         Object[] args = getArguments();
 
         if (args != null && args.length > 0) {
-            if (args.length != 4) {
+            if (args.length != 5) {
                 throw new InvalidParameterException("Invalid parameters for agent setup");
             }
 
@@ -88,6 +95,7 @@ public class AverageAgent extends Agent {
 
             receiverAID = new AID(args[2].toString(), AID.ISLOCALNAME);
             leftReceived = Integer.parseInt(args[3].toString());
+            protocolStep = Double.parseDouble(args[4].toString());
         }
         else {
             throw new InvalidParameterException("Invalid neighbours param");

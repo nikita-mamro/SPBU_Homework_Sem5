@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 
 public class MainController {
     private HashMap<Integer, String> parameters;
+    private double protocolStep;
 
-    public MainController(HashMap<Integer, String> parameters) {
+    public MainController(HashMap<Integer, String> parameters, double protocolStep) {
         this.parameters = parameters;
+        this.protocolStep = protocolStep;
     }
 
     public void initAgents() {
@@ -33,7 +35,7 @@ public class MainController {
 
             for(int i = 0; i < parameters.size(); i++) {
                 AgentController agent = cc.createNewAgent(Integer.toString(i),
-                        "ru.spbu.stud.AverageAgent", new Object[] {parameters.get(i), parameters.size(), receivers.get(i), requiredSendersCounts.get(i)});
+                        "ru.spbu.stud.AverageAgent", new Object[] {parameters.get(i), parameters.size(), receivers.get(i), requiredSendersCounts.get(i), protocolStep});
                 agent.start();
             }
         } catch (Exception e) {
