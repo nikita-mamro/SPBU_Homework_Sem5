@@ -21,13 +21,15 @@ def bisection_method(f, a, b, epsilon):
     mid = (a + b) / 2
     steps = 0
 
-    while b - a > 2 * epsilon:
+    c = (a + b) / 2
+
+    while b - a > epsilon:
+        if f(a) * f(c) <= 0:
+            b = c
+        else:
+            a = c
         steps += 1
         c = (a + b) / 2
-        if f(a) * f(c) <= 0:
-            a = c
-        else:
-            b = c
 
     x = (a + b) / 2
     return (mid, x, steps, b - a)

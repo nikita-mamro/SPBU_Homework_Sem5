@@ -69,10 +69,23 @@ def find_gauss_like(f, w, a, b, logging_enabled):
     return A1 * f(x1) + A2 * f(x2)
 
 
-def find_meler(f, n):
+def find_meler(f, n, logging_enabled):
     s = 0
 
-    for i in range(1, n + 1):
-        s += f(math.cos(math.pi * (2 * i - 1) / (2 * n)))
+    if (logging_enabled):
+        print('\n\nКФ Мелера: ')
+        print('---------------')
 
-    return s * math.pi / n
+    for i in range(1, n + 1):
+        xi = math.cos(math.pi * (2 * i - 1) / (2 * n))
+        if (logging_enabled):
+            print('Узел ', i, ': ', xi)
+        s += f(xi)
+
+    k = math.pi / n
+    if (logging_enabled):
+        print('Коэффициенты: ', k)
+
+    print('\n\n')
+
+    return s * k

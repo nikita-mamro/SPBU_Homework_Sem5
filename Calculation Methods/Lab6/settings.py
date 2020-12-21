@@ -8,7 +8,7 @@ Y0 = 1
 
 
 def y_expected(x):
-    return (math.e ** (-x)) * (math.e ** x * math.sin(x) / 2 + math.e ** x * math.cos(x) / 2 + 0.5)
+    return (math.e ** (-x) + math.sin(x) + math.cos(x)) * 0.5
 
 
 def d1y(x, y):

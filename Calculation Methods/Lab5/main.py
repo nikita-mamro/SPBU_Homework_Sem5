@@ -19,7 +19,7 @@ def perform_step():
 
     g_res = logic.find_gauss(lambda x: f_gauss(x) * w_gauss(x), a, b, m)
     g_like_res = logic.find_gauss_like(f_gauss, w_gauss, a, b, True)
-    m_res = logic.find_meler(f_meler, n)
+    m_res = logic.find_meler(f_meler, n, True)
 
     g_expected = integrate.quad(lambda x: f_gauss(x) * w_gauss(x), a, b)[0]
     m_expected = settings.fM_expected(1) - settings.fM_expected(-1)

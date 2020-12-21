@@ -3,6 +3,8 @@ import old_logic
 import new_logic
 import settings
 import printer
+import colors
+import sys
 
 
 def start_lagrange_iteration():
@@ -23,6 +25,10 @@ def start_lagrange_iteration():
 
         found_x = old_logic.get_polynom_value_lagrange(
             F, n, reversed_table)
+
+        sys.stdout.write(colors.BOLD)
+        print('Решение с помощью \'перевернутой\' таблицы')
+        sys.stdout.write(colors.RESET)
 
         printer.print_results(found_x, F)
 
@@ -56,13 +62,28 @@ def use_bisection(A, B, m, F, n):
 
     table = old_logic.create_table(m, A, B, settings.f)
 
+    sys.stdout.write(colors.BOLD)
+    print('\nРешение с помощью бисекции\n')
+    sys.stdout.write(colors.RESET)
+
     print('Введите эпсилон:')
     epsilon = float(input())
 
-    left_part = new_logic.get_polynom_newton(
-        (A + B) / 2, n, table, settings.f, F)
+    start = table[0][1]
+    end = table[len(table) - 1][1]
 
-    print(left_part(0.1))
+    for i in range(0, len(table) - 1):
+        if (table[i][2] == F):
+            start = table[i][1]
+            end = start
+            break
+        if (table[i][2] > F and table[i + 1][2] < F or table[i][2] < F and table[i + 1][2] > F):
+            start = table[i][1]
+            end = table[i + 1][1]
+            break
+
+    left_part = new_logic.get_polynom_newton(
+        (start + end) / 2, n, table, settings.f, F)
 
     sections = old_logic.root_separation(left_part, n, A, B)
     xs = []
@@ -72,7 +93,6 @@ def use_bisection(A, B, m, F, n):
             left_part, section[0], section[1], epsilon)
         xs.append(found_x)
 
-    print('Метод бисекции')
     printer.print_results(xs[0], F)
 
 
