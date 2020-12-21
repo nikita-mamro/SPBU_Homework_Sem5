@@ -5,6 +5,7 @@ import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
 import java.security.InvalidParameterException;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class AverageAgent extends Agent {
@@ -33,7 +34,9 @@ public class AverageAgent extends Agent {
         if (isPending && !isTriggered) {
             ACLMessage newMes = new ACLMessage(ACLMessage.INFORM);
             newMes.addReceiver(receiverAID);
-            newMes.setContent(value + ";" + totalValues);
+
+            var valueWithInterference = value + ThreadLocalRandom.current().nextDouble(-1, 1);
+            newMes.setContent(valueWithInterference + ";" + totalValues);
 
             try {
                 send(newMes);
