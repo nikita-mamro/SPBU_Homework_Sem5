@@ -69,8 +69,21 @@ def use_bisection(A, B, m, F, n):
     print('Введите эпсилон:')
     epsilon = float(input())
 
+    start = table[0][1]
+    end = table[len(table) - 1][1]
+
+    for i in range(0, len(table) - 1):
+        if (table[i][2] == F):
+            start = table[i][1]
+            end = start
+            break
+        if (table[i][2] > F and table[i + 1][2] < F or table[i][2] < F and table[i + 1][2] > F):
+            start = table[i][1]
+            end = table[i + 1][1]
+            break
+
     left_part = new_logic.get_polynom_newton(
-        (A + B) / 2, n, table, settings.f, F)
+        (start + end) / 2, n, table, settings.f, F)
 
     sections = old_logic.root_separation(left_part, n, A, B)
     xs = []
