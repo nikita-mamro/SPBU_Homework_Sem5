@@ -102,11 +102,29 @@ namespace FirstFollow.Solver
                 foreach (var nt in _g.VN)
                 {
                     var xs = new List<string>();
-                    // Получаем множество, описанное в шаге 3
-                    // ( Применяем ⊕k к F_j-1 (в данном случае это F_i) )
-                    foreach (var tmpNt in _g.VN)
+
+                    var yss = new List<string>();
+
+                    foreach (var rule in _g.Rules)
                     {
-                        xs = XorK(xs, fi[nt].Item1[i], k);
+                        // Проверка на правила вида A -> Y1...Ym
+                        if (rule.LeftSide == nt.ToString() && !rule.RightSide.Any(e => !char.IsUpper(e)))
+                        {
+                            yss.Add(rule.RightSide);
+                        }
+                    }
+
+                    foreach (var ys in yss)
+                    {
+                        var tmpRes = new List<string>();
+
+                        foreach (var y in ys)
+                        {
+                            // ( Применяем ⊕k к F_j-1 (в данном случае это F_i) )
+                            tmpRes = XorK(tmpRes, fi[y].Item1[i], k);
+                        }
+
+                        xs = tmpRes.Union(xs).Distinct().ToList();
                     }
 
                     var fj = fi[nt].Item1.Last();
@@ -268,7 +286,7 @@ namespace FirstFollow.Solver
             return res;
         }
 
-        private List<string> XorK(List<string> l1, List<string> l2, int k)
+        public List<string> XorK(List<string> l1, List<string> l2, int k)
         {
             var res = new List<string>();
 
