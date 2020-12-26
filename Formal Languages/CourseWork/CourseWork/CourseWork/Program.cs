@@ -68,6 +68,15 @@ namespace CourseWork
             var k = 1;
 
             Console.WriteLine($"Грамматика G{(LLkTester.IsLLk(grammar, k) ? " " : " не ")}принадлежит классу LL({k})");
+
+            k = 2;
+
+            Console.WriteLine($"Грамматика G{(LLkTester.IsLLk(grammar, k) ? " " : " не ")}принадлежит классу LL({k})");
+
+            k = 3;
+
+            Console.WriteLine($"Грамматика G{(LLkTester.IsLLk(grammar, k) ? " " : " не ")}принадлежит классу LL({k})");
+
         }
     }
 }
