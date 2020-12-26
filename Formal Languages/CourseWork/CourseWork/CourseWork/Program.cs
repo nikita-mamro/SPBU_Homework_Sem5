@@ -12,20 +12,30 @@ namespace CourseWork
             #region Grammar descriptions
 
             var vt1 = new List<char> { 'a', 'b' };
-
+            
             var vn1 = new List<char> { 'S', 'B', 'A' };
-
+            
             var rules1 = new List<Rule>
             {
-                new Rule("S", "aB"),
-                new Rule("S", "bA"),
+                new Rule("S", "aAaB"),
+                new Rule("S", "bAbB"),
                 new Rule("A", "a"),
-                new Rule("B", "b"),
-                new Rule("A", "bAA"),
-                new Rule("B", "aBB"),
-                new Rule("A", "aS"),
-                new Rule("B", "bS")
+                new Rule("A", "ab"),
+                new Rule("B", "a"),
+                new Rule("B", "aB")
             };
+
+            //var vt1 = new List<char> { 'a', 'b' };
+            //
+            //var vn1 = new List<char> { 'S', 'A' };
+            //
+            //var rules1 = new List<Rule>
+            //{
+            //    new Rule("S", "AS"),
+            //    new Rule("S", ""),
+            //    new Rule("A", "aA"),
+            //    new Rule("A", "b")
+            //};
 
             #endregion
 

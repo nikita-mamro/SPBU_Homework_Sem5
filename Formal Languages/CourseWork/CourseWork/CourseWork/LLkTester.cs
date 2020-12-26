@@ -39,7 +39,6 @@ namespace CourseWork
                 foreach (var ntB in g.VN)
                 {
                     sigma_0.Add((ntA, ntB), new List<List<string>>());
-                    sigma_0[(ntA, ntB)].Add(new List<string>());
 
                     foreach (var rule in g.Rules)
                     {
@@ -75,7 +74,6 @@ namespace CourseWork
                     foreach (var ntB in g.VN)
                     {
                         sigma_1.Add((ntA, ntB), new List<List<string>>());
-                        sigma_1[(ntA, ntB)].Add(new List<string>());
 
                         foreach (var rule in g.Rules)
                         {
