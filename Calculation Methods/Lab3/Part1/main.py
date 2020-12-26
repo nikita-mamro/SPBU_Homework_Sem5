@@ -63,7 +63,7 @@ def use_bisection(A, B, m, F, n):
     table = old_logic.create_table(m, A, B, settings.f)
 
     sys.stdout.write(colors.BOLD)
-    print('\nРешение с помощью бисекции\n')
+    print('\nРешение с использованием метода бисекции\n')
     sys.stdout.write(colors.RESET)
 
     print('Введите эпсилон:')
