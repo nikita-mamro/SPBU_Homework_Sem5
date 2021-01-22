@@ -1,17 +1,23 @@
 package ru.spbu.stud;
 
-import ru.spbu.stud.utils.ParametersReader;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class App {
-    public  static  void main(String[] args) {
-        var parameters = ParametersReader.getTopologyParameters("parameters.txt");
+    public static void main(String[] args) {
+        var parameters = new HashMap<Integer, String>();
 
-        var myInput = new Scanner( System.in );
-        System.out.print( "Введите шаг протокола локального голосования: " );
-        var step = myInput.nextDouble();
+        for (var i = 0; i < 10; ++i) {
+            var randomDouble = ThreadLocalRandom.current().nextDouble(-10, 10);
+            parameters.put(i, Double.toString(randomDouble));
+            System.out.println(randomDouble);
+        }
 
-        MainController mc = new MainController(parameters, step);
+        var average = parameters.keySet().stream().mapToDouble(a -> a).average();
+        System.out.println("Average:");
+        System.out.println(average);
+
+        MainController mc = new MainController(parameters);
         mc.initAgents();
     }
 }
