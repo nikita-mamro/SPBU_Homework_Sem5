@@ -27,7 +27,7 @@ public class FindAverageBehaviour extends TickerBehaviour {
     @Override
     protected void onTick() {
         // Check if agent has already sent a message
-        if (StateHolder.getInstance().sentAgent(aid)) {
+        if (StateHolder.getInstance().checkSentAgent(aid)) {
             // Sending messages to neighbours
             for (var nAID: neighbours) {
                 // Check if connection fails
@@ -55,5 +55,16 @@ public class FindAverageBehaviour extends TickerBehaviour {
         }
 
         var msg = agent.blockingReceive();
+
+        if (msg != null) {
+            var current = StateHolder.getInstance().getAgentValue(aid);
+            var uDelta = b * (Double.parseDouble(msg.getContent()) - current);
+            var uCurrent = StateHolder.getInstance().getUValue(aid);
+            StateHolder.getInstance().setUValue(aid, uCurrent + uDelta);
+        }
+
+        if (StateHolder.getInstance().checkAllSentAgents()) {
+            StateHolder.
+        }
     }
 }
