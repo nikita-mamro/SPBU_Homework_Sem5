@@ -41,20 +41,10 @@ public class FindAverageBehaviour extends TickerBehaviour {
             StateHolder.getInstance().setSentAgent(aid);
         }
 
-        if (aid == 0) {
-            var res = StateHolder.getInstance().getAgentValue(aid);
-            System.out.printf("STATE: %f\n", res);
-
-            System.out.println(StateHolder.getInstance().counterFinished());
-            if (StateHolder.getInstance().counterFinished()) {
-                System.out.printf("FINISH with %f\n", res);
-                stop();
-            }
-        }
-
-        var msg = agent.blockingReceive(5);
+        var msg = agent.receive();
 
         if (msg != null) {
+            var a = msg.getSender();
             var current = StateHolder.getInstance().getAgentValue(aid);
             var uDelta = StateHolder.getInstance().getB() * (Double.parseDouble(msg.getContent()) - current);
             var uCurrent = StateHolder.getInstance().getUValue(aid);
@@ -70,6 +60,14 @@ public class FindAverageBehaviour extends TickerBehaviour {
             }
             StateHolder.getInstance().resetUS();
             StateHolder.getInstance().incrementCounter();
+
+            var res = StateHolder.getInstance().getAgentValue(0);
+            System.out.printf("STATE: %f\n", res);
+
+            if (StateHolder.getInstance().counterFinished()) {
+                System.out.printf("FINISH with %f\n", res);
+                stop();
+            }
         }
 
         agent.doWait(10);
