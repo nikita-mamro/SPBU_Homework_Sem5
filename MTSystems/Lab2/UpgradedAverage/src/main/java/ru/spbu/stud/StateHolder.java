@@ -66,10 +66,10 @@ public class StateHolder {
     }
 
     public void resetSentList() {
-        sent = new ArrayList<>(10);
+        sent = new ArrayList<>(Collections.nCopies(5, false));
     }
 
     public void resetUS() {
-        us = new ArrayList<>(10);
+        us = new ArrayList<>(Collections.nCopies(5, 0.0));
     }
 }

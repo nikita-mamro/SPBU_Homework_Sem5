@@ -28,7 +28,7 @@ public class FindAverageBehaviour extends TickerBehaviour {
             for (var nAID: neighbours) {
                 // Check if connection fails
                 if (Math.random() < 0.8) {
-                    return;
+                    agent.doWait(100);
                 }
                 var msg = new ACLMessage(ACLMessage.INFORM);
                 msg.addReceiver(nAID);
