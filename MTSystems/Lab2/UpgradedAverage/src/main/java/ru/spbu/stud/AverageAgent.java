@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 public class AverageAgent extends Agent {
     @Override
     protected void setup() {
-        // Value in current node + total number of nodes including center node
         Object[] args = getArguments();
 
         ArrayList<AID> neighbours;
@@ -24,10 +23,10 @@ public class AverageAgent extends Agent {
             var id = Integer.parseInt(getAID().getLocalName());
             StateHolder.getInstance().setAgentValue(id, value);
 
-            neighbours = new ArrayList<>(9);
+            neighbours = new ArrayList<>();
             for (var i = 0; i < 10; ++i) {
                 if (i != id) {
-                    neighbours.add(new AID(Integer.toString(id), AID.ISLOCALNAME));
+                    neighbours.add(new AID(Integer.toString(i), AID.ISLOCALNAME));
                 }
             }
         }

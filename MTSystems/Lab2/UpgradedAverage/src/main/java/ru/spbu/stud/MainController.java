@@ -9,7 +9,7 @@ import jade.wrapper.ContainerController;
 import java.util.HashMap;
 
 public class MainController {
-    private HashMap<Integer, String> parameters;
+    private final HashMap<Integer, String> parameters;
 
     public MainController(HashMap<Integer, String> parameters) {
         this.parameters = parameters;

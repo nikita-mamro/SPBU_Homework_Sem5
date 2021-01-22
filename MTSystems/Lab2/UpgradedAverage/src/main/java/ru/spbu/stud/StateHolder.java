@@ -1,6 +1,6 @@
 package ru.spbu.stud;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class StateHolder {
     // Alpha from local voting protocol formula
@@ -12,11 +12,11 @@ public class StateHolder {
     // Maximum number of ticks
     private int maxCounter = 15;
     // Flags to check if agent has sent message on current tick
-    private ArrayList<Boolean> sent = new ArrayList<>(10);
+    private ArrayList<Boolean> sent = new ArrayList<>(Collections.nCopies(10, false));
     // Current values in agents
-    private ArrayList<Double> values = new ArrayList<>(10);
-    // Intermediate results for 'u'
-    private ArrayList<Double> us = new ArrayList<>(10);
+    private ArrayList<Double> values = new ArrayList<>(Collections.nCopies(10, 0.0));
+    // Intermediate results of 'u'-s for agents
+    private ArrayList<Double> us = new ArrayList<>(Collections.nCopies(10, 0.0));
 
     private static StateHolder self = new StateHolder();
     public static StateHolder getInstance() { return self; }

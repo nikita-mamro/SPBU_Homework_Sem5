@@ -15,7 +15,7 @@ public class App {
 
         var average = parameters.keySet().stream().mapToDouble(a -> a).average();
         System.out.println("Average:");
-        System.out.println(average);
+        System.out.println(average.getAsDouble());
 
         MainController mc = new MainController(parameters);
         mc.initAgents();

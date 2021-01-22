@@ -10,8 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FindAverageBehaviour extends TickerBehaviour {
     private final AverageAgent agent;
     private final int aid;
-    private final double alpha;
-    private final double b;
     private final ArrayList<AID> neighbours;
 
     FindAverageBehaviour(AverageAgent agent, ArrayList<AID> neighbours,  long period) {
@@ -19,8 +17,6 @@ public class FindAverageBehaviour extends TickerBehaviour {
         this.setFixedPeriod(true);
         this.agent = agent;
         this.neighbours = neighbours;
-        this.alpha = StateHolder.getInstance().getAlpha();
-        this.b = StateHolder.getInstance().getB();
         this.aid = Integer.parseInt(agent.getAID().getLocalName());
     }
 
@@ -47,10 +43,10 @@ public class FindAverageBehaviour extends TickerBehaviour {
 
         if (aid == 0) {
             var res = StateHolder.getInstance().getAgentValue(aid);
-            System.out.printf("STATE: %f", res);
+            System.out.printf("STATE: %f\n", res);
 
             if (StateHolder.getInstance().counterFinished()) {
-                System.out.printf("FINISH with %f", res);
+                System.out.printf("FINISH with %f\n", res);
             }
         }
 
@@ -58,13 +54,22 @@ public class FindAverageBehaviour extends TickerBehaviour {
 
         if (msg != null) {
             var current = StateHolder.getInstance().getAgentValue(aid);
-            var uDelta = b * (Double.parseDouble(msg.getContent()) - current);
+            var uDelta = StateHolder.getInstance().getB() * (Double.parseDouble(msg.getContent()) - current);
             var uCurrent = StateHolder.getInstance().getUValue(aid);
             StateHolder.getInstance().setUValue(aid, uCurrent + uDelta);
         }
 
         if (StateHolder.getInstance().checkAllSentAgents()) {
-            StateHolder.
+            StateHolder.getInstance().resetSentList();
+            for (var id = 0; id < 10; ++id) {
+                var u = StateHolder.getInstance().getUValue(aid);
+                var current = StateHolder.getInstance().getAgentValue(aid);
+                StateHolder.getInstance().setAgentValue(aid, current + u * StateHolder.getInstance().getAlpha());
+            }
+            StateHolder.getInstance().resetUS();
+            StateHolder.getInstance().incrementCounter();
         }
+
+        agent.doWait(10);
     }
 }
