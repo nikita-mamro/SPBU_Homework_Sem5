@@ -9,9 +9,9 @@ import jade.wrapper.ContainerController;
 import java.util.HashMap;
 
 public class MainController {
-    private final HashMap<Integer, String> parameters;
+    private final HashMap<Integer, Double> parameters;
 
-    public MainController(HashMap<Integer, String> parameters) {
+    public MainController(HashMap<Integer, Double> parameters) {
         this.parameters = parameters;
     }
 

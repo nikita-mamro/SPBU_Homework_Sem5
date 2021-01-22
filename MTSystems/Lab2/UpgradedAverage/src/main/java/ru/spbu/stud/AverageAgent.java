@@ -24,7 +24,7 @@ public class AverageAgent extends Agent {
             StateHolder.getInstance().setAgentValue(id, value);
 
             neighbours = new ArrayList<>();
-            for (var i = 0; i < 10; ++i) {
+            for (var i = 0; i < 5; ++i) {
                 if (i != id) {
                     neighbours.add(new AID(Integer.toString(i), AID.ISLOCALNAME));
                 }
